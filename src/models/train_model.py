@@ -18,11 +18,12 @@ def load_data():
     return df
 
 def split_data(df, split_by_col, test_size):
-    df_sorted = df.sort_values(split_by_col).reset_index(drop=True)
-    split_index =  int(len(df_sorted) * (1 - test_size))
+    # df_sorted = df.sort_values(split_by_col).reset_index(drop=True)
+    # split_index =  int(len(df_sorted) * (1 - test_size))
+    split_index =  int(len(df) * (1 - test_size))
 
-    df_train = df_sorted.iloc[:split_index].copy()
-    df_test = df_sorted.iloc[split_index:].copy()
+    df_train = df.iloc[:split_index].copy()
+    df_test = df.iloc[split_index:].copy()
 
     return df_train, df_test
 

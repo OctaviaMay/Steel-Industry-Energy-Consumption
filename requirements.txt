@@ -7,5 +7,6 @@ setuptools
 jupyter
 xgboost
 tabulate
+markdown
 
 
