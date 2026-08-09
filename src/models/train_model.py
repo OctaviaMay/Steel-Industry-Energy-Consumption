@@ -13,7 +13,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PROCESSED_DATA_PATH = PROJECT_ROOT / "data" / "processed" / "processed_data.csv"
 
 def load_data():
-    df = pd.read_csv(PROCESSED_DATA_PATH)
+    df = pd.read_csv(PROCESSED_DATA_PATH,
+                     parse_dates=["consumed_date"])
     return df
 
 def split_data(df, split_by_col, test_size):
