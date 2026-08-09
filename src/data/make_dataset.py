@@ -53,9 +53,7 @@ def validate_data(df):
     return col_num_unique_list, col_cat_unique_list
 
 def clean_data(df):
-    df['consumed_date'] = pd.to_datetime(df['date'],format='%d/%m/%Y %H:%M')
-    df['consumed_date'] = pd.to_datetime(df['consumed_date'])
-    df["date"] = pd.to_datetime(df["date"], format="%d/%m/%Y %H:%M")
+    df["consumed_date"] = pd.to_datetime(df["date"], format="%d/%m/%Y %H:%M")
     df = df.drop('date', axis=1)
 
     # Save to interim data folder

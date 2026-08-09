@@ -4,6 +4,7 @@ scikit-learn
 matplotlib
 seaborn
 setuptools
+jupyter
 xgboost
 tabulate
 

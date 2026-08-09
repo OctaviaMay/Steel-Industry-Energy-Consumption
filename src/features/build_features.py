@@ -8,7 +8,9 @@ INTERIM_DATA_PATH = PROJECT_ROOT / "data" / "interim" / "interim_clean_data.csv"
 PROCESSED_DATA_PATH = PROJECT_ROOT / "data" / "processed" / "processed_data.csv"
 
 def load_data():
-    df = pd.read_csv(INTERIM_DATA_PATH)
+    df = pd.read_csv(INTERIM_DATA_PATH, 
+        parse_dates=["consumed_date"]
+        )
     return df
 
 def inspect_target_co2_relation(df, col, target):
