@@ -125,8 +125,30 @@ def plot_score_comparison_chart(models, r2_list, mae_list):
 
     plt.xlabel('Models')
     plt.ylabel('Score')
-    plt.title('R2 and Mean Absolute Error Across CV Folds Comparison\n')
+    plt.title('R2 and Mean Absolute Error Comparison\n')
     plt.xticks([i + bar_width/2 for i in x], models)
+    # Add a horizontal line spanning the entire plot width at y = 18
+    # plt.axhline(y=8, color='red', linestyle='--', linewidth=1.5, label='Threshold')
     plt.ylim(0, 15)
     plt.legend()
+    plt.show()
+
+def plot_mae_baseline(df):
+    fig, ax = plt.subplots(figsize=(7,5))
+    colors = ['#e34948' if v < 0 else '#008300' for v in df['MAE_imprv_pct']]
+
+    bars = sns.barplot(data=df, x='Model', y='MAE', hue='Model', palette=colors, legend=False, ax=ax)
+
+    # baseline reference line
+    ax.axhline(df['MAE_Baseline'].iloc[0], color='gray', linestyle='--', linewidth=1.5, label='Naive baseline')
+
+    # annotate bars with MAE and % improvement
+    for i, row in df.iterrows():
+        ax.text(i, row['MAE'] + 0.15, f"{row['MAE']:.2f}\n({row['MAE_imprv_pct']:+.1f}%)",
+                ha='center', fontsize=10)
+
+    ax.set_title('Model MAE vs naive persistence baseline')
+    ax.set_ylabel('MAE (kWh)')
+    ax.legend()
+    plt.tight_layout()
     plt.show()
