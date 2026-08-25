@@ -8,5 +8,6 @@ jupyter
 xgboost
 tabulate
 markdown
+joblib
 
 
