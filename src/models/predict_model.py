@@ -75,51 +75,6 @@ def run_prediction_evaluation(model, X_test, y_test):
     return result
 
 
-# to remove
-def predict(model_pipeline, X_test):
-    y_pred = model_pipeline.predict(X_test)
-
-    return y_pred
-
-# to remove
-def get_predictions(models, X_test):
-    y_preds=[]
-    for m in models:
-        y_pred = {'model': m['model'],'y_pred': m['pipeline'].predict(X_test)}
-        y_preds.append(y_pred)
-
-    return y_preds
-
-# to remove
-def get_evaluation_results(y_preds, y_test):
-    eval_results = []
-    for y in y_preds:
-        r2 = round(r2_score(y_test, y['y_pred']),4)
-        mse = round(mean_squared_error(y_test,y['y_pred']),4)
-        rmse = round(root_mean_squared_error(y_test, y['y_pred']),4)
-        mae = round(mean_absolute_error(y_test, y['y_pred']),4)
-        eval = {'model':y['model'], 'R2': r2, 'MSE':mse, 'RMSE': rmse, 'MAE': mae}
-        eval_results.append(eval)
-
-    return eval_results
-
-
-
-
-# to remove
-def evaluate_model(y_test, y_pred):
-    r2 = round(r2_score(y_test, y_pred),4)
-    mse = round(mean_squared_error(y_test,y_pred),4)
-    rmse = round(root_mean_squared_error(y_test, y_pred),4)
-    mae = round(mean_absolute_error(y_test, y_pred),4)
-
-    print(f"R² Score: {r2}")
-    print(f"Mean Squared Error: {mse}")
-    print(f"Root Mean Squared Error: {rmse}")
-    print(f"Mean Absolute Error:{mae}")
-
-    return {'r2': r2, 'rmse': rmse, 'mse': mse, 'mae': mae}
-
 def get_feature_importance(pipeline,model_name):
     regressor = pipeline.named_steps['regressor']
     feature_names = pipeline.named_steps["preprocess"].get_feature_names_out()
