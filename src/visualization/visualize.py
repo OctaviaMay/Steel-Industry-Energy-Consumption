@@ -133,18 +133,53 @@ def plot_score_comparison_chart(models, r2_list, mae_list):
     plt.legend()
     plt.show()
 
+def plot_kpi_with_threshold(df: pd.DataFrame,
+                            kpi_col: str,
+                            threshold_col:str,
+                            threshold_label: str,
+                            ylabel:str,
+                            title:str):
+    
+    fig, ax = plt.subplots(figsize=(7,5))
+
+    if kpi_col == 'MAE':
+        colors = ['#e34948' if v < 0 else '#008300' for v in df['MAE_imprv_percent']]
+    else:
+        colors = ['#e34948' if v < 0 else '#008300' for v in df[kpi_col]]
+
+    bars = sns.barplot(data=df, x='Model', y=kpi_col, hue='Model', width=0.3 ,palette=colors, legend=False, ax=ax)
+
+    # baseline/threshold reference line
+    ax.axhline(df[threshold_col].iloc[0], color='gray', linestyle='--', linewidth=1.5, label=threshold_label)
+
+    if kpi_col == 'MAE':
+        # annotate bars with MAE and % improvement
+        for i, row in df.iterrows():
+            ax.text(i, row[kpi_col] + 0.15, f"{row['MAE']:.2f}\n({row['MAE_imprv_percent']:+.1f}%)",
+                    ha='center', fontsize=10)
+    else:
+        for i, row in df.iterrows():
+            ax.text(i, row[kpi_col] + 0.15, f"{row[kpi_col]:.2f}\n({row[kpi_col]:+.1f}%)",
+                    ha='center', fontsize=10)
+
+    ax.set_title(title)
+    ax.set_ylabel(ylabel)
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
+
 def plot_mae_baseline(df):
     fig, ax = plt.subplots(figsize=(7,5))
-    colors = ['#e34948' if v < 0 else '#008300' for v in df['MAE_imprv_pct']]
+    colors = ['#e34948' if v < 0 else '#008300' for v in df['MAE_imprv_percent']]
 
-    bars = sns.barplot(data=df, x='Model', y='MAE', hue='Model', palette=colors, legend=False, ax=ax)
+    bars = sns.barplot(data=df, x='Model', y='MAE', hue='Model', width=0.3 ,palette=colors, legend=False, ax=ax)
 
     # baseline reference line
     ax.axhline(df['MAE_Baseline'].iloc[0], color='gray', linestyle='--', linewidth=1.5, label='Naive baseline')
 
     # annotate bars with MAE and % improvement
     for i, row in df.iterrows():
-        ax.text(i, row['MAE'] + 0.15, f"{row['MAE']:.2f}\n({row['MAE_imprv_pct']:+.1f}%)",
+        ax.text(i, row['MAE'] + 0.15, f"{row['MAE']:.2f}\n({row['MAE_imprv_percent']:+.1f}%)",
                 ha='center', fontsize=10)
 
     ax.set_title('Model MAE vs naive persistence baseline')
