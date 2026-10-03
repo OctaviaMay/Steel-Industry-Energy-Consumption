@@ -96,7 +96,6 @@ Rather than stopping at R²/MAE, the project defines a small business-style KPI 
 │   ├── models/train_model.py      # Train/tune/save pipelines
 │   ├── models/predict_model.py    # Load models, run KPI evaluation
 │   └── visualization/visualize.py # Shared plotting helpers
-├── tests/                # Unit tests (in progress)
 ├── requirements.txt
 └── pyproject.toml
 ```
