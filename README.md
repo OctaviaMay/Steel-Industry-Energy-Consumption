@@ -127,3 +127,11 @@ Python, pandas, NumPy, scikit-learn, XGBoost, matplotlib, seaborn, joblib, Jupyt
 ## Author
 
 Octavia — [GitHub](https://github.com/OctaviaMay)
+
+## License
+
+© 2026 Octavia May. All rights reserved.
+
+This code is shared publicly for portfolio review only. You may view it,
+but you may not copy, reuse, modify, or redistribute any part of it
+without my written permission. See [LICENSE](LICENSE) for details.
