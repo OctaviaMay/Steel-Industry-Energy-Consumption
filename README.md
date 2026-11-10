@@ -4,7 +4,7 @@ Forecasts a steel plant's electricity use **15 minutes ahead**, using only infor
 
 **R² 0.926 · MAE 3.95 kWh · 27% lower error than a naive persistence baseline** (Random Forest, chronological hold-out of the last 30% of the year)
 
-🔗 **[Live demo](https://steel-industry-energy-consumption.onrender.com/)** · **[API docs](https://steel-industry-energy-consumption-service.onrender.com/docs)**
+🔗 **[Live demo](https://steel-industry-energy-consumption.onrender.com/)** · **[API docs](https://steel-industry-energy-consumption-service.onrender.com/docs)** · **[Power BI dashboard](powerbi/)**
 
 
 ![Streamlit app: actual vs predicted usage](docs/app_screenshot.png)
@@ -20,6 +20,7 @@ Manufacturers that can anticipate near-term electricity demand can schedule heav
 - **Evaluated like a forecast.** The train/test split is chronological, and every model is compared with a naive "same as the last reading" baseline, not just against other models.
 - **Business KPIs, not only accuracy.** Error is checked by load type and by weekday vs. weekend, the views an operations team would use.
 - **Production-style serving.** A FastAPI service builds the model's features from raw readings and serves predictions and evaluation results; the Streamlit app is a pure frontend that calls the API.
+- **Monitoring dashboard in Power BI.** An operations page (load profile, weekday vs. weekend demand) and a model-monitoring page that tracks MAE against the naive baseline and a per-load-type alert threshold.
 
 ## Results
 
@@ -46,6 +47,17 @@ Naive baseline (predict the last reading): MAE 5.42 kWh.
 
 - **Medium and Maximum load periods are harder to forecast** because consumption swings sharply when heavy equipment starts and stops. Light-load periods are calm and make up 54% of the test set, which pulls the overall MAE down.
 - **Beating persistence by 30% is ambitious at a 15-minute horizon**, where the last reading is already a strong predictor. `usage_lag_1` carries 82–87% of feature importance in both finalists.
+
+## Power BI dashboard
+
+Two-page dashboard built in Power BI Desktop (Power Query, DAX measures) on the raw data and the model's test-set predictions.
+
+![Power BI model-monitoring page](powerbi/screenshots/page2_model_monitoring.png)
+
+- **Operations:** weekend demand is 65% lower per day; weekdays run 8am–10pm, weekends stop at 5pm.
+- **Model monitoring:** MAE 3.95 vs. 5.42 baseline; Maximum and Medium load exceed the 1.5× alert threshold, matching the KPI check above.
+
+Details and the operations page: [`powerbi/`](powerbi/)
 
 ## Dataset
 
@@ -131,6 +143,7 @@ Run from `notebooks/` in order: `01_eda` → `02_feature_engineering` → `03_mo
 │   └── split/              Held-out test set
 ├── models/                 Trained Random Forest and XGBoost pipelines
 ├── notebooks/              EDA, feature engineering, modeling, evaluation
+├── powerbi/                Power BI dashboard (.pbix), prediction export script, screenshots
 └── src/
     ├── data/               Loading, validation, cleaning
     ├── features/           Feature engineering and leakage checks
@@ -148,7 +161,7 @@ Run from `notebooks/` in order: `01_eda` → `02_feature_engineering` → `03_mo
 
 ## Tech stack
 
-Python · pandas · NumPy · scikit-learn · XGBoost · FastAPI · Pydantic · Streamlit · Altair · Jupyter
+Python · pandas · NumPy · scikit-learn · XGBoost · FastAPI · Pydantic · Streamlit · Altair · Jupyter . Power BI (Power Query, DAX)
 
 ## Author
 
